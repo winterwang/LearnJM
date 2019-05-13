@@ -18,4 +18,6 @@ lmeFit.aids <- lme(CD4 ~ obstime + obstime:drug,
                    random = ~ obstime | patient, data = aids)
 coxFit.aids <- coxph(Surv(Time, death) ~ drug, data = aids.id, x = TRUE)
 
-jointFit.aids <- jointModel(lmeFit.aids, coxFit.aids, timeVar = "obstime")
+jointFit.aids <- jointModel(lmeFit.aids, coxFit.aids, timeVar = "obstime", 
+                            method = "piecewise-PH-aGH")
+summary(jointFit.aids)
