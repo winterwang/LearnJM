@@ -49,3 +49,13 @@ saveGIF({
     
   }
 },ani.width = 400, ani.height=400)
+
+# try to use the JMbayes package 
+library(JMbayes)
+
+MixedModelFit1 <- mvglmer(list(CD4 ~  obstime + obstime:drug + (obstime | patient)), data = aids,
+                          families = list(gaussian))
+
+coxFit.aids <- coxph(Surv(Time, death) ~ drug, data = aids.id, model = TRUE)
+
+JMFit1 <- mvJointModelBayes(MixedModelFit1, coxFit.aids, timeVar = "obstime")
